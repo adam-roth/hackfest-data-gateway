@@ -11,9 +11,7 @@ class ArcGISHandler implements Handler {
 	static final def serviceRoot = "http://gisservices.scc.qld.gov.au/arcgis/rest/services"
 	
 	static {
-		//FIXME:  register for all the context-paths that we support here
-		//HandlerRegistry.registerHandler("Staging/Applications_SCRC/MapServer/2", theInstance)	//DevelopmentApps - All
-		
+		//register for all the context-paths that we support here
 		HandlerRegistry.registerHandler("Administration/Administration_SCRC/MapServer/0", theInstance)	//SCRC Constructed Projects (Current Financial Year)
 		HandlerRegistry.registerHandler("Administration/Administration_SCRC/MapServer/1", theInstance)	//SCRC Constructed Projects (Divisional Allocations)
 		HandlerRegistry.registerHandler("Boundaries/Boundaries_SCRC/MapServer/0", theInstance)	//Electoral Divisions (Council-2014)
