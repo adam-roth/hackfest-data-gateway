@@ -130,6 +130,10 @@
 			<p>The code for this project can found on Github, at the following URL:
 			</p>
 			<a href="https://github.com/adam-roth/hackfest-data-gateway" target="_blank">https://github.com/adam-roth/hackfest-data-gateway</a>
+			<h1>Binaries</h1>
+			<p>Have your own <a href="http://tomcat.apache.org/" target="_blank">servlet container</a>?  Great!  You can download a prebuilt copy of the HackFest Data Gateway below:
+			</p>
+			<a href="${createLink(uri: '/release/data-gateway.war')}" target="_blank">${createLink(uri: '/release/data-gateway.war', absolute:true)}</a>
 		</div>
 	</body>
 </html>

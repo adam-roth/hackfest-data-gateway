@@ -142,7 +142,7 @@ var client = new gateway.Client();
 
 //get some data to work with
 client.loadData({
-    context: "Staging/Applications_SCRC/MapServer/2",
+    context: gateway.datasets["DevelopmentApps - All"],
     params: {
 	    where: "1=1",
 	    f: "pjson"
