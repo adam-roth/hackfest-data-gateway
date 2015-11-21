@@ -123,6 +123,7 @@
 				<ul>
 					<li class="controller"><g:link controller="keys" action="index">View API Keys</g:link></li>
 					<li class="controller"><g:link controller="keys" action="newKey">Create API Key</g:link></li>
+					<li class="controller"><g:link controller="examples" action="index">View Examples</g:link></li>
 				</ul>
 			</div>
 			<p>&nbsp;</p>

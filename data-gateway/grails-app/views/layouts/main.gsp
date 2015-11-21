@@ -16,6 +16,7 @@
 		<link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">
 		<g:layoutHead/>
 		<r:layoutResources />
+		<script src="${createLink(uri: '/js/jquery-1.11.3.js')}"></script>
 	</head>
 	<body>
 		<div id="grailsLogo" role="banner"><a href="${createLink(uri: '/')}"><img src="${createLink(uri: '/images/logo.jpg')}" alt="HackFest 2015" /></a></div>
