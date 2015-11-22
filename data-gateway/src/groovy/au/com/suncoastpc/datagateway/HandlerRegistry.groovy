@@ -1,14 +1,16 @@
 package au.com.suncoastpc.datagateway
 
 import au.com.suncoastpc.datagateway.handlers.ArcGISHandler
+import au.com.suncoastpc.datagateway.handlers.CommentsHandler
 
 
 class HandlerRegistry {
 	static final def registeredHandlers = [:]
 	
 	static {
-		//XXX:  hack to force evaluation of static initializers
+		//XXX:  hack to force evaluation of static initializers (may be superfluous?)
 		new ArcGISHandler()
+		new CommentsHandler()
 	}
 	
 	static synchronized def registerHandler(context, handler) {

@@ -31,7 +31,7 @@ class ExamplesController {
 		//println "${ projectData.getClass().getName() }:  ${ projectData }"
 		
 		//pull in comments for the project
-		def comments = SubmittedComment.findAll("FROM SubmittedComment AS c WHERE c.externalId=?", [projectData.ram_id])
+		def comments = SubmittedComment.findAll("FROM SubmittedComment AS c WHERE c.externalId=? AND context = ?", [projectData.ram_id, projectData.context])
 		projectData.comments = null;
 		
 		request.project = projectData
@@ -56,6 +56,7 @@ class ExamplesController {
 				newComment.longitude = projectData.longitude
 				newComment.timestamp = new Date()
 				newComment.commentText = text
+				newComment.context = projectData.context
 				
 				newComment.save(flush:true)
 			}

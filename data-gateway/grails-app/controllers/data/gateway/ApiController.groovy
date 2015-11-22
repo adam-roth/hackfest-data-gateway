@@ -45,8 +45,50 @@ class ApiController {
 			}
 			else {
 				def result = new JSONArray()
+				def candidates = []
+				def unfilteredItems = []
 				handlers.each { handler ->
 					handler.handleRequest(context, queryParams).each { item ->
+						unfilteredItems.add(item)
+					}
+				}
+				
+				//now collate anything that we can
+				def mergeMap = [:]
+				unfilteredItems.each { item ->
+					//first pass, collect everything that will definitely be in our result-set
+					if (! item.ephemeral) {
+						candidates.add(item)
+						if (item._collationIdentifier) {
+							mergeMap.put(item._collationIdentifier, item)
+						}
+					}
+				}
+				
+				unfilteredItems.each{ item ->
+					//second pass, merge in any ephemeral items, if possible
+					if (item.ephemeral && item._collationIdentifier && mergeMap.get(item._collationIdentifier)) {
+						//we have something to merge with
+						def masterItem = mergeMap.get(item._collationIdentifier)
+						if (item.persistentFields) {
+							item.persistentFields.each { field ->
+								masterItem.put(field, item.get(field))
+								mergeMap.put(item._collationIdentifier, masterItem)
+							}
+						}
+					}
+					else if (item.ephemeral) {
+						//it's a choice between an ephemeral item and a non-existent one; allow the ephemeral one to proceed
+						candidates.add(item)
+					}
+				}
+				
+				//XXX:  fix strange issue where changes made in the merge process aren't reflected in the final output
+				candidates.each { item ->
+					if (item._collationIdentifier && mergeMap.get(item._collationIdentifier)) {
+						result.add(mergeMap.get(item._collationIdentifier))
+					}
+					else {
 						result.add(item)
 					}
 				}
@@ -54,8 +96,6 @@ class ApiController {
 				request.status = "success"
 				request.result = result.toJSONString()
 			}
-			
-			
 		}
 		else {
 			request.status = "error"

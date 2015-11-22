@@ -30,4 +30,5 @@ class SubmittedComment {
 	double longitude
 	String externalId
 	String externalData
+	String context
 }

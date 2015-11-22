@@ -171,6 +171,7 @@
 		</script>
 		
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvwJUP-fs5XdY7PMBHCUgcJKGbtrVXkGU&callback=mapsAvailable" async defer></script>
+		<!-- XXX:  Development key:  http://localhost:8080/data-gateway/api/client?apiKey=25c22cc227a44505a2e756f37cef9bb0 -->
 		<script src='http://aroth.no-ip.org:81/data-gateway/api/client?apiKey=7852fbfaf9454fc896d72640144eccd5'></script>
 	</head>
 	<body>
@@ -236,8 +237,9 @@
 			</div>
 		</div>
 		<script>
-			//FIXME:  add second datasource that searches for comments, add logic to merge results with SCC data
 			//FIXME:  [add info-windows on click]
+			//FIXME:  [add marker to show center of search]
+			//FIXME:  [add different marker type for items with comments]
 			
 			//FIXME:  submit project(s), with videos
 			//FIXME:  review photos for any other easy extensions
@@ -319,6 +321,7 @@
 			    //FIXME:  should drop a unique marker for the search location
 			    
 			    $(".output").hide();
+			    $(".output").html("");
 			    
 			    //get some data to work with
 			    //can search within bounding box like:  inSR=4326&geometry=153.09968,-26.714226,153.10,-26.701115&geometryType=esriGeometryEnvelope
@@ -360,7 +363,7 @@
 			            //$(".output").show();
 			            
 			            if (window.map) {
-			            	drawDataOnMap(data, map);
+			            	drawDataOnMap(data, map, dataset);
 			            	
 			            	if (zoom) {
 			            		zoomToFit(map, currentMarkers);
@@ -376,7 +379,7 @@
 			window.markerMap = {};
 			window.markerRamMap = {};
 			window.currentMarkers = [];
-			window.drawDataOnMap = function(data, map) {
+			window.drawDataOnMap = function(data, map, dataset) {
 				//first, clear any overlays that currently exist
 			    while (currentMarkers.length > 0) {
 			    	currentMarkers.pop().setMap(null);
@@ -408,6 +411,9 @@
 			        	console.log("Ingoring result because [OBJECTID, ram_id, or ram_process_ctr] fields are missing", details);
 			        	continue;
 			        }
+			        
+			        //store the dataset this belongs to
+			        details.context = dataset;
 			        
 			        //compute (and store) the title
 			    	var title = titleFromDataItem(details);
