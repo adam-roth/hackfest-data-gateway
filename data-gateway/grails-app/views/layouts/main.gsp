@@ -14,9 +14,9 @@
 		<link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}">
 		<link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
 		<link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">
+		<script src="${createLink(uri: '/js/jquery-1.11.3.js')}"></script>
 		<g:layoutHead/>
 		<r:layoutResources />
-		<script src="${createLink(uri: '/js/jquery-1.11.3.js')}"></script>
 	</head>
 	<body>
 		<div id="grailsLogo" role="banner"><a href="${createLink(uri: '/')}"><img src="${createLink(uri: '/images/logo.jpg')}" alt="HackFest 2015" /></a></div>

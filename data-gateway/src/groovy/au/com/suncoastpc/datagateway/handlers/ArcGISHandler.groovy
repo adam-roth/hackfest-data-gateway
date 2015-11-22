@@ -396,6 +396,13 @@ class ArcGISHandler implements Handler {
 					newObj.longitude = newObj.geometry.x
 				}
 				
+				if (newObj.ram_id) {
+					newObj._collationIdentifier = newObj.ram_id
+				}
+				else if (newObj.OBJECTID) {
+					newObj._collationIdentifier = newObj.OBJECTID
+				}
+				
 				result.add(newObj)
 			}
 		}

@@ -117,7 +117,7 @@
 			window.startingCoord = {lat: -26.6522586, lng: 153.0906231};		//HackFest HQ
 			window._lastGeocode = startingCoord;
 		    if (navigator.geolocation) {
-		        navigator.geolocation.getCurrentPosition(function(pos) {
+		        /*navigator.geolocation.getCurrentPosition(function(pos) {
 		            //console.log("Got position from browser", pos)
 		            startingCoord = {lat: pos.coords.latitude, lng: pos.coords.longitude};
 		            window._lastGeocode = startingCoord;
@@ -126,11 +126,11 @@
 		                map.setCenter(startingCoord);
 		            }
 
-				    if ($) {
+				    if (window.jQuery) {
 						//FIXME:  jQuery may not be ready yet
-		            	$(".location").html(startingCoord.lat + ", " + startingCoord.lng);
+		            	jQuery(".location").html(startingCoord.lat + ", " + startingCoord.lng);
 				    }
-		        });
+		        });*/
 		    }
 
 			window._mapsReady = false;
@@ -236,12 +236,9 @@
 			</div>
 		</div>
 		<script>
-			//FIXME:  also display results as list in 'output' div
-			//FIXME:  link list and map
-			//FIXME:  add ability to leave comments (ensure they capture raw JSON data of the item being commented)
-			//FIXME:  add info-windows on click
-			//FIXME:  add ability to see item details and comments, with link to PDO
 			//FIXME:  add second datasource that searches for comments, add logic to merge results with SCC data
+			//FIXME:  [add info-windows on click]
+			
 			//FIXME:  submit project(s), with videos
 			//FIXME:  review photos for any other easy extensions
 
@@ -358,9 +355,9 @@
 			        context: dataset,
 			        params: params,
 			        success: function(data) {
-			            //console.log(data);
-			            $(".output").html(JSON.stringify(data));
-			            $(".output").show();
+			            console.log(data);
+			            //$(".output").html(JSON.stringify(data));
+			            //$(".output").show();
 			            
 			            if (window.map) {
 			            	drawDataOnMap(data, map);
@@ -376,12 +373,16 @@
 			    });
 			};
 	
+			window.markerMap = {};
+			window.markerRamMap = {};
 			window.currentMarkers = [];
 			window.drawDataOnMap = function(data, map) {
 				//first, clear any overlays that currently exist
 			    while (currentMarkers.length > 0) {
 			    	currentMarkers.pop().setMap(null);
 			    }
+			    markerMap = {};
+			    markerRamMap = {};
 			    
 			    //timespan we have to apply ourselves because ArcGis api is doing crazy things...
 			    var daysBack = $(".timespan option:selected").val();
@@ -392,6 +393,8 @@
 			    //only show entries timestamped later than this
 			    var cutoffTime = cutoffDate.getTime();
 			    
+			   
+			    
 			    //add new markers for the current dataset
 			    for (var index = 0; index < data.length; index++) {
 			        //can use ram_process_ctr to link back to PDO, like:  http://pdonline.sunshinecoast.qld.gov.au/MasterView/Modules/Applicationmaster/default.aspx?page=wrapper&key=<ram_process_ctr>
@@ -400,7 +403,18 @@
 			        	//console.log("Ignoring result because " + details.D_Date_Rec + " < " + cutoffDate, details);
 			            //continue;
 			        }
-			        var title = titleFromDataItem(details);
+			        if (! details.OBJECTID || ! details.ram_id || ! details.ram_process_ctr) {
+			        	//missing information that we rely upon to enable other features
+			        	console.log("Ingoring result because [OBJECTID, ram_id, or ram_process_ctr] fields are missing", details);
+			        	continue;
+			        }
+			        
+			        //compute (and store) the title
+			    	var title = titleFromDataItem(details);
+			    	details._title = title;
+			        
+			        //store mangled version of the ram_id
+			        details.ram_key = details.ram_id.replace(/[^a-zA-Z0-9_]/g, "_");
 			        
 			        if (details.latitude && details.longitude) {
 			            //it's a point
@@ -414,6 +428,11 @@
 			            });
 			            
 			            gmarker._rawData = details;
+			            markerMap[details.OBJECTID] = gmarker;
+			            if (! markerRamMap[details.ram_key]) {
+			            	markerRamMap[details.ram_key] = [];
+			            }
+			            markerRamMap[details.ram_key].push(gmarker);
 			            
 			            setupListeners(gmarker);
 			            currentMarkers.push(gmarker);
@@ -430,6 +449,11 @@
 			            });
 			            
 			            gmarker._rawData = details;
+			            markerMap[details.OBJECTID] = gmarker;
+			            if (! markerRamMap[details.ram_key]) {
+			            	markerRamMap[details.ram_key] = [];
+			            }
+			            markerRamMap[details.ram_key].push(gmarker);
 			            
 			            setupListeners(gmarker);
 			            currentMarkers.push(gmarker);
@@ -438,15 +462,89 @@
 			        	console.log("Unsupported geometry", details.geometry);
 			        }
 			    }
+			    
+			    if (currentMarkers.length > 0) {
+			    	//display tabular version of results as well
+			    	//FIXME:  make table sortable
+			    	var table = $("<table></table>");
+			    	table.append("<tr><th>Id</th><th>Type</th><th>Decision</th><th>Status</th><th>Comments</th><th>Actions</th></tr>");
+			    	
+			    	var seenIds = {};
+			    	for (var index = 0; index < currentMarkers.length; index++) {
+			    		var data = currentMarkers[index]._rawData;
+			    		var flatData = encodeURIComponent(JSON.stringify(data));
+			    		if (! seenIds[data.ram_key]) {
+			    			//add a row for this project
+			    			var row = $("<tr id='" + data.ram_key + "'></tr>");
+			    			row.addClass(data.ram_key);
+			    			row.addClass("projectRow");
+			    			
+			    			row.append("<td>" + data.ram_id + "</td>");
+			    			row.append("<td>" + data.group_desc + "</td>");
+			    			row.append("<td>" + data.DECISION + "</td>");
+			    			row.append("<td>" + data.Progress + "</td>");
+			    			row.append("<td>" + "<a href='/data-gateway/examples/geoPDODetails?project=" + flatData + "'>" + (data.comments ? data.comments.length : "0") + "</a></td>");
+			    			row.append("<td>" + "<a href='/data-gateway/examples/geoPDODetails?project=" + flatData + "'>View Details</a>" + "</td>");
+			    			
+			    			table.append(row);
+			    			seenIds[data.ram_key] = true;
+			    		}
+			    	}
+			    	
+			    	
+			    	$(".output").append(table);
+			    	$(".output").show();
+			    	
+			    	//event handlers to link table to map on hover
+			    	table.find(".projectRow").mouseover(function(){
+			    		var ramKey = $(this).attr("id");
+			    		var markers = markerRamMap[ramKey];
+			    		
+			    		for (var index = 0; index < markers.length; index++) {
+			    			var marker = markers[index];
+			    			marker._zIndex = marker.getZIndex();
+			    			marker.setZIndex(1000000);
+			    			google.maps.event.trigger(marker, 'mouseover');
+			    		}
+			    		
+			    		$(this).css("background", "#E1F2B6");
+			    	});
+			    	
+			    	table.find(".projectRow").mouseout(function(){
+			    		var ramKey = $(this).attr("id");
+			    		var markers = markerRamMap[ramKey];
+			    		
+			    		for (var index = 0; index < markers.length; index++) {
+			    			var marker = markers[index];
+			    			if (marker._zIndex) {
+			    				marker.setZIndex(marker._zIndex);
+			    			}
+			    			google.maps.event.trigger(marker, 'mouseout');
+			    		}
+			    		
+			    		$(this).css("background", "#FFFFFF");
+			    	});
+			    }
 			};
 	
 			window.setupListeners = function(marker) {
 				google.maps.event.addListener(marker, "mouseover", function() {
+					//link the marker to its entry in the list
+					var key = marker._rawData.ram_key;
+					$("#" + key).css("background", "#E1F2B6");
+					
 			        marker.setIcon(hoverIcon);
 			    });
 			    google.maps.event.addListener(marker, "mouseout", function() {
+			    	//link the marker to its entry in the list
+					var key = marker._rawData.ram_key;
+					$("#" + key).css("background", "#FFFFFF");
+			    
 			        marker.setIcon(baseIcon);
 			    });
+			    
+			    //FIXME:  link to list on hover
+			    //FIXME:  info window
 			};
 	
 			window.titleFromDataItem = function(item) {
