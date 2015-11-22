@@ -60,7 +60,11 @@ class ApiController {
 					if (! item.ephemeral) {
 						candidates.add(item)
 						if (item._collationIdentifier) {
-							mergeMap.put(item._collationIdentifier, item)
+							if (! mergeMap.containsKey(item._collationIdentifier)) {
+								mergeMap.put(item._collationIdentifier, [])
+							}
+							mergeMap.get(item._collationIdentifier).add(item)
+							//mergeMap.put(item._collationIdentifier, item)
 						}
 					}
 				}
@@ -69,12 +73,17 @@ class ApiController {
 					//second pass, merge in any ephemeral items, if possible
 					if (item.ephemeral && item._collationIdentifier && mergeMap.get(item._collationIdentifier)) {
 						//we have something to merge with
-						def masterItem = mergeMap.get(item._collationIdentifier)
+						def masterItems = mergeMap.get(item._collationIdentifier)
 						if (item.persistentFields) {
-							item.persistentFields.each { field ->
-								masterItem.put(field, item.get(field))
-								mergeMap.put(item._collationIdentifier, masterItem)
+							def newMasterItems = []
+							masterItems.each { masterItem ->
+								item.persistentFields.each { field ->
+									masterItem.put(field, item.get(field))
+									//mergeMap.put(item._collationIdentifier, masterItem)
+								}
+								newMasterItems.add(masterItem)
 							}
+							mergeMap.put(item._collationIdentifier, newMasterItems)
 						}
 					}
 					else if (item.ephemeral) {
@@ -84,9 +93,13 @@ class ApiController {
 				}
 				
 				//XXX:  fix strange issue where changes made in the merge process aren't reflected in the final output
+				def handledCollations = new HashSet()
 				candidates.each { item ->
 					if (item._collationIdentifier && mergeMap.get(item._collationIdentifier)) {
-						result.add(mergeMap.get(item._collationIdentifier))
+						if (! handledCollations.contains(item._collationIdentifier)) {
+							result.addAll(mergeMap.get(item._collationIdentifier))
+							handledCollations.add(item._collationIdentifier)	
+						}
 					}
 					else {
 						result.add(item)
