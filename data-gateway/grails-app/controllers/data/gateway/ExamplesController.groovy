@@ -9,4 +9,8 @@ class ExamplesController {
 	def basic() {
 		
 	}
+	
+	def geoPDO() {
+		
+	}
 }

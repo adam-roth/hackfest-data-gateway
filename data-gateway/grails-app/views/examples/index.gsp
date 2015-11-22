@@ -110,6 +110,7 @@
 				<h2>Available Demos:</h2>
 				<ul>
 					<li class="controller"><g:link controller="examples" action="basic">Basic Mapping</g:link></li>
+					<li class="controller"><g:link controller="examples" action="geoPDO">GeoPDO</g:link></li>
 				</ul>
 			</div>
 		</div>
