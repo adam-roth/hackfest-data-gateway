@@ -53,6 +53,8 @@ class ApiController {
 					}
 				}
 				
+				//println "Got items from handler; size=${ unfilteredItems.size }"
+				
 				//now collate anything that we can
 				def mergeMap = [:]
 				unfilteredItems.each { item ->
@@ -105,6 +107,8 @@ class ApiController {
 						result.add(item)
 					}
 				}
+				
+				//println "Successful request; size=${ result.size() }, callback=${ params.callback } result=\n${ result.toJSONString() }"
 				
 				request.status = "success"
 				request.result = result.toJSONString()

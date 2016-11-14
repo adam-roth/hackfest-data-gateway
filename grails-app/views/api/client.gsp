@@ -353,14 +353,16 @@ window.gateway.sendRequest = function(apiMethod, success, failure, args, numPage
 		type: "POST",
 		data:  params,
 		dataType: "jsonp",
+		//dataType: "text",
 		success: function(data, status, xhr) {
+			//console.log("Successful request:  " + data);
 			data = window.gateway.parseResponse(data);
 			if (data.status != "success") {
 				if (data.message) {
 					failure(data.message, apiMethod);
 				}
 				else {
-					failure("API request failed; url=" + url + ", response=" + JSON.stringify(data), apiMethod);
+					failure("API request failed (1); url=" + url + ", response=" + JSON.stringify(data), apiMethod);
 				}
 			}
 			else {
@@ -379,7 +381,7 @@ window.gateway.sendRequest = function(apiMethod, success, failure, args, numPage
 				message += "; " + error;
 			}
 			
-			failure("API request failed; url=" + url + ", reason=" + message, apiMethod);
+			failure("API request failed (2); url=" + url + ", params=" + JSON.stringify(params) + ", reason=" + message, apiMethod, xhr, text, error);
 		}
 	});
 };

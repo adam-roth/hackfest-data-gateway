@@ -383,6 +383,9 @@ class ArcGISHandler implements Handler {
 		println "${ requestUrl }"
 		try {
 			def response = requestUrl.toURL().text
+			
+			//println "\nRequest:  ${ requestUrl } -> \n${ response }"
+			
 			def responseObj = JSONValue.parse(response)	
 			
 			//we want to transform the result a bit, to make it more convenient to work with on the client-side
@@ -408,6 +411,7 @@ class ArcGISHandler implements Handler {
 		}
 		catch (e) {
 			//nothing we can do
+			e.printStackTrace()
 		}
 		
 		return result
