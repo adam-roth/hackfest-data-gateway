@@ -172,7 +172,11 @@
 		
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvwJUP-fs5XdY7PMBHCUgcJKGbtrVXkGU&callback=mapsAvailable" async defer></script>
 		<!-- XXX:  Development key:  http://localhost:8080/data-gateway/api/client?apiKey=25c22cc227a44505a2e756f37cef9bb0 -->
-		<script src='http://terra.suncoastpc.com.au:8181/data-gateway/api/client?apiKey=a3579c0b937f483c9b52247544d4bb5a'></script>
+		<!-- PRODUCTION:  -->
+			<script src='http://terra.suncoastpc.com.au:8181/data-gateway/api/client?apiKey=a3579c0b937f483c9b52247544d4bb5a'></script>
+		<!-- DEVELOPMENT:
+			<script src='http://localhost:8080/data-gateway/api/client?apiKey=e4335a64660e40b1826ab61296bb0a26'></script>
+		-->
 	</head>
 	<body>
 		<a href="#page-body" class="skip"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -180,8 +184,12 @@
 			<h1>Search Type</h1>
 			<div>
 				<select class="context">
+					<option value="PlanningCadastre/Applications_SCRC/MapServer/0" selected="true">Development Applications</option>
+					<option value="PlanningCadastre/Applications_SCRC/MapServer/2">Building Applications</option>
+					<!-- XXX:  2015 values
 				    <option value="Staging/Applications_SCRC/MapServer/2" selected="true">Development Applications</option>
 				    <option value="Staging/Applications_SCRC/MapServer/5">Building Applications</option>
+				    -->
 				</select>
 			</div>
 			
@@ -654,8 +662,17 @@
 				for (var i = 0; i < coords.length; i++) {
 			  		bounds.extend (coords[i]);
 				}
+				
+				if (coords.length < 1 && _lastGeocode) {
+					var searchBounds = boundingBox(_lastGeocode.lat, _lastGeocode.lng, parseFloat($(".range option:selected").val()));
+					bounds.extend({lat: searchBounds[1], lng: searchBounds[0]});
+					bounds.extend({lat: searchBounds[3], lng: searchBounds[2]});
+				}
+				
 				map.bounds = bounds;
 				map.fitBounds(bounds);
+				
+				
 			};
 		
 			$(document).ready(function() {

@@ -154,7 +154,11 @@
 		</script>
 		
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvwJUP-fs5XdY7PMBHCUgcJKGbtrVXkGU&callback=mapsAvailable" async defer></script>
-		<script src='http://terra.suncoastpc.com.au:8181/data-gateway/api/client?apiKey=a3579c0b937f483c9b52247544d4bb5a'></script>
+		<!-- PRODUCTION: -->
+			<script src='http://terra.suncoastpc.com.au:8181/data-gateway/api/client?apiKey=a3579c0b937f483c9b52247544d4bb5a'></script>
+		<!-- DEVELOPMENT:
+			<script src='http://localhost:8080/data-gateway/api/client?apiKey=e4335a64660e40b1826ab61296bb0a26'></script>
+		-->
 	</head>
 	<body>
 		<a href="#page-body" class="skip"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -228,10 +232,10 @@
 			            		zoomToFit(map, currentMarkers);
 					        }
 			            }
-			        },
+			        }/*,
 			        failure: function(errMsg) {
 			            alert(errMsg);
-			        }
+			        }*/
 			    });
 			};
 	
