@@ -56,6 +56,7 @@ grails.project.dependency.resolution = {
         // runtime 'org.postgresql:postgresql:9.3-1101-jdbc41'
 		runtime 'mysql:mysql-connector-java:5.1.22'
 		compile 'com.googlecode.json-simple:json-simple:1.1.1'
+		//compile 'org.apache.httpcomponents:httpclient:4.5.2'
         test "org.grails:grails-datastore-test-support:1.0.2-grails-2.4"
     }
 
