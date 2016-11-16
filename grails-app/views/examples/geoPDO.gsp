@@ -663,7 +663,7 @@
 			  		bounds.extend (coords[i]);
 				}
 				
-				if (coords.length < 1 && _lastGeocode) {
+				if (coords.length < 2 && _lastGeocode) {
 					var searchBounds = boundingBox(_lastGeocode.lat, _lastGeocode.lng, parseFloat($(".range option:selected").val()));
 					bounds.extend({lat: searchBounds[1], lng: searchBounds[0]});
 					bounds.extend({lat: searchBounds[3], lng: searchBounds[2]});
