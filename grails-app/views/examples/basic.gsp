@@ -166,31 +166,34 @@
 			<h1>Datasets</h1>
 			<select id="datasetSelect">
 			    <option value="-1">(select a dataset)</option>
+			    <option value="-2">-----   Events   -----</option>
+			    <option value="Event/Music/Live">Live Music</option>
+			    <option value="-3">-----  SCC Data  -----</option>
 				<option value="Society/Society_SCRC/MapServer/1">Aquatic Centres</option>
 				<option value="Structure/Structure_SCRC/MapServer/0">Barbeques</option>
 				<option value="Society/Society_SCRC/MapServer/4">Basketball Courts</option>
 				<option value="Society/Society_SCRC/MapServer/5">Beach Access Points</option>
-				<option value="Staging/Applications_SCRC/MapServer/3">Building Applications</option>
+				<option value="PlanningCadastre/Applications_SCRC/MapServer/2">Building Applications</option>
 				<option value="Maximo/EZMaxTrain_NonSecure2/MapServer/18">Buildings - SCC Assets</option>
 				<option value="Transportation/Transportation_SCRC/MapServer/1">Bus Stop (w/ Shelter)</option>
 				<option value="Society/Society_SCRC/MapServer/9">Child Care</option>
 				<option value="Society/Society_SCRC/MapServer/12">Com. Centres</option>
 				<option value="Society/Society_SCRC/MapServer/17">Com. Markets (Monthly)</option>
 				<option value="Society/Society_SCRC/MapServer/16">Com. Markets (Weekly)</option>
-				<option value="Staging/Applications_SCRC/MapServer/0">Development Applications</option>
+				<option value="PlanningCadastre/Applications_SCRC/MapServer/0">Development Applications</option>
 				<option value="Society/Society_SCRC/MapServer/22">Fitness Areas</option>
-				<option value="Society/Society_SCRC/MapServer/24">Liquor/Bottle Shop</option>
+				<!-- <option value="Society/Society_SCRC/MapServer/24">Liquor/Bottle Shop</option> -->
 				<option value="Society/Society_SCRC/MapServer/30">Meat/Butchery</option>
 				<option value="Maximo/EZMaxTrain_NonSecure2/MapServer/4">Open Spaces</option>
 				<option value="Environment/ParksandGardensContracts_SCRC/MapServer/0">Picnic Tables</option>
 				<option value="Emergency/SituationalAwareness_SCRC/MapServer/2">River Gauges</option>
 				<!--  <option value="Transportation/Transportation_RoadEvents_SCRC/MapServer/2">Road Closure Hotspots</option> -->
 				<option value="Administration/Administration_SCRC/MapServer/0">SCC Projects (Current Year)</option>
-				<option value="Administration/Administration_SCRC/MapServer/1">SCC Projects (Allocated)</option>
+				<!-- <option value="Administration/Administration_SCRC/MapServer/1">SCC Projects (Allocated)</option> -->
 				<option value="UtilitiesCommunication/Utilities_SCRC/MapServer/0">WiFi Access Points</option>
 			</select>
 			<div>
-				<input type="button" onclick="runSearch();" value="Load Data" />
+				<input type="button" onclick="runSearch(true);" value="Load Data" />
 			</div>
 		</div>
 		<div id="page-body" role="main">
@@ -416,6 +419,9 @@
 			        
 			        return item.Description;
 			    }
+			    if (item.artistName) {
+					return item.artistName + " - " + item.locationName;
+				}
 			    
 			    console.log("Unsupported Item Type", item);
 			    return "Unknown Item";
@@ -434,6 +440,10 @@
 				}
 				map.bounds = bounds;
 				map.fitBounds(bounds);
+
+				//if (coords.length == 1) {
+				//	map.setCenter(coords[0]);
+				//}
 			};
 		
 			$(document).ready(function() {
