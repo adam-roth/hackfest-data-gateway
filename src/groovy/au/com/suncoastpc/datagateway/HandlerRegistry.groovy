@@ -3,6 +3,7 @@ package au.com.suncoastpc.datagateway
 import au.com.suncoastpc.datagateway.handlers.ArcGISHandler
 import au.com.suncoastpc.datagateway.handlers.CommentsHandler
 import au.com.suncoastpc.datagateway.handlers.EventfindaHandler;
+import au.com.suncoastpc.datagateway.handlers.SolbarHandler;
 
 
 class HandlerRegistry {
@@ -13,6 +14,7 @@ class HandlerRegistry {
 		new ArcGISHandler()
 		new CommentsHandler()
 		new EventfindaHandler()
+		new SolbarHandler()
 	}
 	
 	static synchronized def registerHandler(context, handler) {
