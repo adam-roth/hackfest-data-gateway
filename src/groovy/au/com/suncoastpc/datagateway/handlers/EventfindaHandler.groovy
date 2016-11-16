@@ -21,7 +21,7 @@ class EventfindaHandler implements Handler {
 		//HandlerRegistry.registerHandler("Event/Music/Live/Venues", theInstance)		//Live music venues  [not actually required, as location details will be embedded within the API results]
 	
 		serviceEndpoints.put("Event/Music/Live", "events.json")
-		serviceEndpoints.put("Event/Music/Live/Venues", "locations.json")
+		//serviceEndpoints.put("Event/Music/Live/Venues", "locations.json")
 	}
 	
 	public JSONArray handleRequest(String context, String params) {
@@ -83,6 +83,7 @@ class EventfindaHandler implements Handler {
 					newObj.artistName = obj.artists.artists[0].name
 					
 					//FIXME:  alternately; create a duplicate event for each distinct artist? (or do this on the client-side)
+					//FIXME:  also include URL for event details page, if present
 					def otherArtists = new JSONArray()
 					def check = newObj.artists.artists - newObj.artists.artists[0]
 					check.each { artist ->
