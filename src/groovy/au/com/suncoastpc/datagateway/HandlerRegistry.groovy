@@ -1,5 +1,6 @@
 package au.com.suncoastpc.datagateway
 
+import au.com.suncoastpc.datagateway.handlers.AggregationHandler;
 import au.com.suncoastpc.datagateway.handlers.ArcGISHandler
 import au.com.suncoastpc.datagateway.handlers.CommentsHandler
 import au.com.suncoastpc.datagateway.handlers.EventfindaHandler;
@@ -17,6 +18,7 @@ class HandlerRegistry {
 		new EventfindaHandler()
 		new SolbarHandler()
 		new MusoGarageHandler()
+		new AggregationHandler()
 	}
 	
 	static synchronized def registerHandler(context, handler) {
