@@ -20,6 +20,10 @@ class ExamplesController {
 		
 	}
 	
+	def coastLive() {
+		
+	}
+	
 	def geoPDODetails() {
 		def projectData = params.project ? JSONValue.parse(params.project) : null
 		if (! projectData || ! params.project) {
