@@ -107,7 +107,7 @@
 			<p>Coast Live! is a native Android application that allows users to find live music events going on around the Sunshine Coast.   
 			</p>
 			<p>
-				<img src="http://terra.suncoastpc.com.au:8181/data-gateway/images/coastlive_screenshot.png" />
+				<img src="http://terra.suncoastpc.com.au:8181/data-gateway/images/coastlive_screenshot.png" style="width:480px;" />
 			</p>
 			<h1>Installation</h1>
 			<p>You can download and install the Coast Live! application directly from the following URL:</p>
@@ -117,6 +117,20 @@
 			<br />
 			<p>Alternately, simply scan the QR code below from your Android device.</p>
 			<img src="http://terra.suncoastpc.com.au:8181/data-gateway/images/coastlive_qr.jpg" />
+			<h1>Source Code</h1>
+			<p>Application source-code for the Coast Live! app can be found <a href="https://github.com/adam-roth/coastlive-app" target="_blank">on Github</a>, at:</p>
+			<a href="https://github.com/adam-roth/coastlive-app" target="_blank">https://github.com/adam-roth/coastlive-app</a>			
+			<br />
+			<br />
+			<h1>More Info/Submission Video</h1>
+			<p>
+				<iframe width="640" height="480" src="https://www.youtube.com/embed/rcjjCBC0xLc" frameborder="0" allowfullscreen></iframe>
+			</p>
+			<p>
+				<ul style="position: relative; left: 20px;">
+					<li><a href="http://terra.suncoastpc.com.au:8181/data-gateway/release/coastlive_slides.pptx" target="_blank">Download video slides and script</a></li>
+				</ul>
+			</p>
 		</div>
 	</body>
 </html>
