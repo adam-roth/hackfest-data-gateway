@@ -26,7 +26,7 @@
 		<link>
 			<name>.link_to_grails_plugins</name>
 			<type>2</type>
-			<location>M:/dev/eclipse/workspace/data-gateway-2.4.4/target/work/plugins</location>
+			<location>M:/dev/eclipse/workspace/data-gateway-2.4.4_aroth/target/work/plugins</location>
 		</link>
 	</linkedResources>
 </projectDescription>
