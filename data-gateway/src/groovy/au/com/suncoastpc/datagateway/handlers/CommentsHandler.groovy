@@ -20,6 +20,10 @@ class CommentsHandler implements Handler {
 	public JSONArray handleRequest(String context, String params) {
 		def result = new JSONArray()
 		
+		if (! params) {
+			params = "placeholder=1"
+		}
+		
 		//manipulate the input params a bit
 		def paramMap = params.split('&').collectEntries { param ->
 			param.split('=').collect { it }

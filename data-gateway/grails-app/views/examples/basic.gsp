@@ -130,12 +130,12 @@
 				}
 			    
 		        window.baseIcon = {};
-		        baseIcon.url = "http://aroth.no-ip.org:81/data-gateway/images/map/marker.png";
+		        baseIcon.url = "http://terra.suncoastpc.com.au:8181/data-gateway/images/map/marker.png";
 		        baseIcon.size = new google.maps.Size(12, 20);
 		        baseIcon.anchor = new google.maps.Point(6, 20);
 
 		        window.hoverIcon = {};
-		        hoverIcon.url = "http://aroth.no-ip.org:81/data-gateway/images/map/marker_hover.png?rnd=1";
+		        hoverIcon.url = "http://terra.suncoastpc.com.au:8181/data-gateway/images/map/marker_hover.png?rnd=1";
 		        hoverIcon.size = new google.maps.Size(12, 20);
 		        hoverIcon.anchor =  new google.maps.Point(6, 20);
 		    
@@ -154,7 +154,11 @@
 		</script>
 		
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvwJUP-fs5XdY7PMBHCUgcJKGbtrVXkGU&callback=mapsAvailable" async defer></script>
-		<script src='http://aroth.no-ip.org:81/data-gateway/api/client?apiKey=7852fbfaf9454fc896d72640144eccd5'></script>
+		<!-- PRODUCTION: -->
+			<script src='http://terra.suncoastpc.com.au:8181/data-gateway/api/client?apiKey=a3579c0b937f483c9b52247544d4bb5a'></script>
+		<!-- DEVELOPMENT:
+			<script src='http://localhost:8080/data-gateway/api/client?apiKey=e4335a64660e40b1826ab61296bb0a26'></script>
+		-->
 	</head>
 	<body>
 		<a href="#page-body" class="skip"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -162,31 +166,34 @@
 			<h1>Datasets</h1>
 			<select id="datasetSelect">
 			    <option value="-1">(select a dataset)</option>
+			    <option value="-2">-----   Events   -----</option>
+			    <option value="Event/Music/Live">Live Music</option>
+			    <option value="-3">-----  SCC Data  -----</option>
 				<option value="Society/Society_SCRC/MapServer/1">Aquatic Centres</option>
 				<option value="Structure/Structure_SCRC/MapServer/0">Barbeques</option>
 				<option value="Society/Society_SCRC/MapServer/4">Basketball Courts</option>
 				<option value="Society/Society_SCRC/MapServer/5">Beach Access Points</option>
-				<option value="Staging/Applications_SCRC/MapServer/3">Building Applications</option>
+				<option value="PlanningCadastre/Applications_SCRC/MapServer/2">Building Applications</option>
 				<option value="Maximo/EZMaxTrain_NonSecure2/MapServer/18">Buildings - SCC Assets</option>
 				<option value="Transportation/Transportation_SCRC/MapServer/1">Bus Stop (w/ Shelter)</option>
 				<option value="Society/Society_SCRC/MapServer/9">Child Care</option>
 				<option value="Society/Society_SCRC/MapServer/12">Com. Centres</option>
 				<option value="Society/Society_SCRC/MapServer/17">Com. Markets (Monthly)</option>
 				<option value="Society/Society_SCRC/MapServer/16">Com. Markets (Weekly)</option>
-				<option value="Staging/Applications_SCRC/MapServer/0">Development Applications</option>
+				<option value="PlanningCadastre/Applications_SCRC/MapServer/0">Development Applications</option>
 				<option value="Society/Society_SCRC/MapServer/22">Fitness Areas</option>
-				<option value="Society/Society_SCRC/MapServer/24">Liquor/Bottle Shop</option>
+				<!-- <option value="Society/Society_SCRC/MapServer/24">Liquor/Bottle Shop</option> -->
 				<option value="Society/Society_SCRC/MapServer/30">Meat/Butchery</option>
 				<option value="Maximo/EZMaxTrain_NonSecure2/MapServer/4">Open Spaces</option>
 				<option value="Environment/ParksandGardensContracts_SCRC/MapServer/0">Picnic Tables</option>
 				<option value="Emergency/SituationalAwareness_SCRC/MapServer/2">River Gauges</option>
 				<!--  <option value="Transportation/Transportation_RoadEvents_SCRC/MapServer/2">Road Closure Hotspots</option> -->
 				<option value="Administration/Administration_SCRC/MapServer/0">SCC Projects (Current Year)</option>
-				<option value="Administration/Administration_SCRC/MapServer/1">SCC Projects (Allocated)</option>
+				<!-- <option value="Administration/Administration_SCRC/MapServer/1">SCC Projects (Allocated)</option> -->
 				<option value="UtilitiesCommunication/Utilities_SCRC/MapServer/0">WiFi Access Points</option>
 			</select>
 			<div>
-				<input type="button" onclick="runSearch();" value="Load Data" />
+				<input type="button" onclick="runSearch(true);" value="Load Data" />
 			</div>
 		</div>
 		<div id="page-body" role="main">
@@ -228,10 +235,10 @@
 			            		zoomToFit(map, currentMarkers);
 					        }
 			            }
-			        },
+			        }/*,
 			        failure: function(errMsg) {
 			            alert(errMsg);
-			        }
+			        }*/
 			    });
 			};
 	
@@ -412,6 +419,9 @@
 			        
 			        return item.Description;
 			    }
+			    if (item.artistName) {
+					return item.artistName + " - " + item.locationName;
+				}
 			    
 			    console.log("Unsupported Item Type", item);
 			    return "Unknown Item";
@@ -430,6 +440,10 @@
 				}
 				map.bounds = bounds;
 				map.fitBounds(bounds);
+
+				//if (coords.length == 1) {
+				//	map.setCenter(coords[0]);
+				//}
 			};
 		
 			$(document).ready(function() {

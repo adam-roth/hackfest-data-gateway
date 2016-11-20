@@ -111,6 +111,7 @@
 				<ul>
 					<li class="controller"><g:link controller="examples" action="basic">Basic Mapping</g:link></li>
 					<li class="controller"><g:link controller="examples" action="geoPDO">GeoPDO</g:link></li>
+					<li class="controller"><g:link controller="examples" action="coastLive">Coast Live!</g:link></li>
 				</ul>
 			</div>
 		</div>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@page import="liquibase.statement.core.CommentStatement"%>
+<%@ defaultCodec="none" %>
 <html>
 	<head>
 		<meta name="layout" content="main"/>
@@ -164,14 +165,16 @@
 						${ project.Progress }
 					</td>
 				</tr>
-				<tr>
-					<td class="label">
-						Record Date
-					</td>
-					<td class="value">
-						${ new Date(project.D_Date_Rec).format("dd MMM yyyy") }
-					</td>
-				</tr>
+				<g:if test="${ project.D_Date_Rec }">
+					<tr>
+						<td class="label">
+							Record Date
+						</td>
+						<td class="value">
+							${ new Date(project.D_Date_Rec).format("dd MMM yyyy") }
+						</td>
+					</tr>
+				</g:if>
 				<tr>
 					<td class="label">
 						Land Number
