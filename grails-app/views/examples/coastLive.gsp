@@ -129,6 +129,8 @@
 			<p>
 				<ul style="position: relative; left: 20px;">
 					<li><a href="http://terra.suncoastpc.com.au:8181/data-gateway/release/coastlive_slides.pptx" target="_blank">Download video slides and script</a></li>
+					<li><a href="http://terra.suncoastpc.com.au:8181/data-gateway/release/coastlive_submission.txt" target="_blank">Project submission - original</a></li>
+					<li><a href="http://terra.suncoastpc.com.au:8181/data-gateway/release/coastlive_supplement.txt" target="_blank">Project submission - supplemental info</a></li>
 				</ul>
 			</p>
 		</div>

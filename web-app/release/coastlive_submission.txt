@@ -1,0 +1,34 @@
+Team Name:		DataFlytt
+Team Members:		Adam Roth, Allison Roth
+Entry Name:		Coast Live!
+Video:			https://www.youtube.com/watch?v=rcjjCBC0xLc
+Image:			http://terra.suncoastpc.com.au:8181/data-gateway/images/coastlive_screenshot.png
+Website:		http://terra.suncoastpc.com.au:8181/data-gateway/examples/coastLive
+
+Data Used
+	EventFinda
+		http://www.eventfinda.com.au/
+		
+	Muso Garage
+		https://www.musosgarage.com/
+		
+	Solbar
+		http://solbar.com.au/gigs/
+	
+	SCC Events
+		http://api.sunshinecoast.qld.gov.au/SCCEvents/Events
+	
+	SCC ArcGIS
+		http://gisservices.scc.qld.gov.au/arcgis/rest/services
+	
+	
+
+Description
+	Live events (concerts/gigs) app, also allows users to overlay other SCC
+	datasets that might be useful to a concert-goer, such as restaurants, 
+	shops, bus stops, etc..
+
+Entry Categories
+	Smartest Use of Open Data
+	Smartest Business
+	Smartest Community
