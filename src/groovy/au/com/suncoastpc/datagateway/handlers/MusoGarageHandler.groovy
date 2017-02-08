@@ -22,7 +22,8 @@ class MusoGarageHandler implements Handler {
 	static final def supportedVenues = ["The Yacht Club":["lat":-26.6854, "lng":153.1301, "address": "33-45 Parkyn Parade, Mooloolaba, Sunshine Coast"], 
 										"Solbar":["lat":-26.6522, "lng":153.0903, "address": "19 Ocean Street, Maroochydore, Sunshine Coast"],
 										"The Imperial Hotel":["lat":-26.4758, "lng":152.9506, "address": "1 Etheridge St, Eumundi, Sunshine Coast"],
-										"Noosa Reef Hotel":["lat":-26.3926, "lng":153.0900, "address": "19 Noosa Dr, Noosa Heads"]]
+										"Noosa Reef Hotel":["lat":-26.3926, "lng":153.0900, "address": "19 Noosa Dr, Noosa Heads"], 
+										"The Peregian Beach Hotel":["lat":-26.4807754, "lng":153.0952556, "address": "221-229 David Low Way, Peregian Beach, Sunshine Coast"]]
 	
 	static {
 		HandlerRegistry.registerHandler("Event/Music/Live", theInstance)				//Live music shows
