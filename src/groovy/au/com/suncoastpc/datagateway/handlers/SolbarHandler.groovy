@@ -36,13 +36,22 @@ class SolbarHandler implements Handler {
 			println baseUrl
 			
 			def allGigs = baseUrl.toURL().text
-			allGigs.findAll(/(?ms)\<article.*?\>(.*?)\<\/article\>/) { fullMatch, article ->
+			//allGigs.findAll(/(?ms)\<article.*?\>(.*?)\<\/article\>/) { fullMatch, article ->
+			allGigs.findAll(/(?ms)\<div.*?class\=\"sow-image-grid-image\"\>(.*?)\<\/div\>/) { fullMatch, article ->
+				//find the link
+				def link = article.split(/href\=\"/)[1].split(/\"/)[0];
+				article = link.toURL().text.replaceAll(/\<\/?del\>/, "")
+				
+				println link
+				
+				//sleep 2500
+				
 				//grab the artist
-				def artist = article.split(/h3\>/)[1].split(/\>/)[1].split(separatorRegex)[0].trim()
+				def artist = article.split(/(?msi)\<h1.*?\>/)[1].split(/\>/)[0].split(separatorRegex)[0].trim()
 				artist = artist.split(" ").collect { it.toLowerCase().capitalize() }.join(" ")
 				artist = StringEscapeUtils.unescapeHtml(artist)
 				
-				if (! artist.toLowerCase().contains("open mic") && ! artist.startsWith("<article") && ! artist.toLowerCase().startsWith("coming up")) {
+				if (! artist.toLowerCase().contains("open mic") /*&& ! artist.startsWith("<article")*/ && ! artist.toLowerCase().startsWith("coming up")) {
 					//found a valid entry; now we need to gather additional details:
 					//	detailsLink
 					//  ticket cost?
@@ -60,16 +69,20 @@ class SolbarHandler implements Handler {
 						entry.ageType = article.toLowerCase().contains("all ages") ? "All Ages" : "18+"
 						entry.is_free = article.toLowerCase().contains("free entry") ? 1 : 0
 						if (entry.is_free == 0) {
-							//FIXME:  could dive deeper to find the appropriate oztix page
-							entry.ticketLink = "http://solbar.oztix.com.au/"
+							entry.ticketLink = "https://solbar.oztix.com.au/"
+							try {
+								entry.ticketLink = "https://solbar.oztix.com.au/Default.aspx" + article.split(/solbar\.oztix\.com\.au\/Default\.aspx/)[1].split(/\"/)[0]
+							}
+							catch (ignored) { }
 						}
-						entry.detailsLink = article.split(/h3\>/)[1].split(/\"/)[1]
+						entry.detailsLink = link //article.split(/h3\>/)[1].split(/\"/)[1]
 						
 						//date and time ("Thursday 17th November")
-						def dayAndMonth = article.split(/h3\>/)[1].split(/\>/)[1].split(separatorRegex)[1].split(/\</)[0].trim().replace("st", "").replace("nd", "").replace("rd", "").replace("th", "")
+						//FIXME:  we should just propagate this in text format to the client (but should probably do that translation at a level above individual crawlers)
+						def dayAndMonth = article.split(/(?msi)\<h1.*?\>/)[1].split(/\>/)[0].split(separatorRegex)[1].split(/\</)[0].trim().replace("st", "").replace("nd", "").replace("rd", "").replace("th", "")
 						dayAndMonth = dayAndMonth.split(/ /)[1] + " " + dayAndMonth.split(/ /)[2]
 						
-						def dayAndMonthAndYear = dayAndMonth + " " + currentYear
+						def dayAndMonthAndYear = (dayAndMonth + " " + currentYear).replace("Augu ", "August ")
 						entry.startDate = Date.parse("dd MMM yyyy", dayAndMonthAndYear).getTime();
 						if (entry.startDate < new Date().getTime() - 1000 * 60 * 60 * 24) {
 							dayAndMonthAndYear = dayAndMonth + " " + (currentYear + 1)
@@ -78,7 +91,17 @@ class SolbarHandler implements Handler {
 						
 						//time may be unavailable
 						entry.startTime = entry.startDate
-						if (article.contains("|")) {
+						//<h2>8pm
+						article.findAll(/(?msi)\<h2.*?\>([0-9]\:?[0-9]{0,2}[amp]{0,2}).*?[\|\<]/) { match, time ->
+							def startTime = dayAndMonthAndYear + " " + time
+							if (time.contains(":")) {
+								entry.startTime = Date.parse("dd MMM yyyy hh:mma", startTime).getTime();
+							}
+							else {
+								entry.startTime = Date.parse("dd MMM yyyy hha", startTime).getTime();
+							}
+						}
+						/*if (article.contains("|")) {
 							def time = article.split(/\<p\>/)[1].split(/\|/)[0].trim();
 							if (time.matches(/[0-9]\:?[0-9]{0,2}(am|pm)/)) {
 								def startTime = dayAndMonthAndYear + " " + time
@@ -89,11 +112,25 @@ class SolbarHandler implements Handler {
 									entry.startTime = Date.parse("dd MMM yyyy hha", startTime).getTime();
 								}
 							}
-						}
+						}*/
 						
 						//additional artists
 						def otherArtists = new JSONArray()
-						if (article.toLowerCase().contains("with special guests:") || article.toLowerCase().contains("with special guest:")) {
+						article.findAll(/(?msi)\<h2.*?\>With Special Guests?\s*?\|\s*?([A-Za-z0-9]+.*?)\<\/h2/) { match, others ->
+							def otherList = StringEscapeUtils.unescapeHtml(others)
+							
+							otherList.split(/\+/).each { name ->
+								name = name.trim()
+								name = name.split(/ /).collect { it.toLowerCase().capitalize() }.join(" ")
+								//name = StringEscapeUtils.unescapeHtml(name)
+								
+								if (! otherArtists.contains(name)) {
+									otherArtists.add(name)
+								}
+							}
+						}
+						
+						/*if (article.toLowerCase().contains("with special guests:") || article.toLowerCase().contains("with special guest:")) {
 							def otherList = article.toLowerCase().split(/with special guests?\:/)[1].split(/tickets\:/)[0].trim()
 							otherList = StringEscapeUtils.unescapeHtml(otherList)
 							
@@ -104,8 +141,13 @@ class SolbarHandler implements Handler {
 								
 								otherArtists.add(name)
 							}
-						}
+						}*/
 						entry.otherArtists = otherArtists
+						
+						//event description
+						article.find(/(?msi)\<div.*?class\=.*?so\-panel.*?data\-index\=.*?1.*?\>.*?<div.*?class\=.*?textwidget.*?\>(.*?)\<\/div\>/) { match, content ->
+							entry.description = StringEscapeUtils.unescapeHtml(content.trim().replaceAll(/\<.*?\>/, ""))
+						}
 						
 						//category information is unavailable
 						entry.categories = new JSONArray()
@@ -118,7 +160,8 @@ class SolbarHandler implements Handler {
 					}
 					catch (ex) {
 						//failed to parse properly; just log and move on to the next one
-						println "Failed to parse; url=${ baseUrl }, article=${ article }, error=${ ex }"
+						//ex.printStackTrace()
+						println "Failed to parse; url=${ link }, error=${ ex }"
 					}
 				}
 			}
@@ -132,7 +175,7 @@ class SolbarHandler implements Handler {
 	
 	static def main(args) {
 		def entries = theInstance.handleRequest("Event/Music/Live", null)
-		println entries
+		println entries.toJSONString();
 	}
 	
 	static def saneString(str) {

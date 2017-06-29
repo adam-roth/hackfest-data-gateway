@@ -104,14 +104,15 @@
 		</div>
 		<div id="page-body" role="main">
 			<h1>Coast Live!</h1>
-			<p>Coast Live! is a native Android application that allows users to find live music events going on around the Sunshine Coast.   
+			<p>Coast Live! is a native Android application that allows users to find live music events going on around the Sunshine Coast, and 
+			<a href="https://www.sunshinecoast.qld.gov.au/Council/News-Centre/Live-music-app-wins-Hackfest-2016-021216" target="_blank">winner of Hackfest 2016</a>.   
 			</p>
 			<p>
 				<img src="http://terra.suncoastpc.com.au:8181/data-gateway/images/coastlive_screenshot.png" style="width:480px;" />
 			</p>
 			<h1>Installation</h1>
-			<p>You can download and install the Coast Live! application directly from the following URL:</p>
-			<a href="http://terra.suncoastpc.com.au:8181/data-gateway/release/coastlive-0.1.apk" target="_blank">http://terra.suncoastpc.com.au:8181/data-gateway/release/coastlive-0.1.apk</a>
+			<p>Coast Live! is available in the Play Store at the following URL:</p>
+			<a href="https://play.google.com/store/apps/details?id=au.com.suncoastpc.coastlive&hl=en" target="_blank">https://play.google.com/store/apps/details?id=au.com.suncoastpc.coastlive&hl=en</a>
 			<br />
 			<br />
 			<br />
