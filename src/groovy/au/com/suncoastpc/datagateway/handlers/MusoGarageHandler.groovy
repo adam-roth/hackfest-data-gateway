@@ -40,7 +40,23 @@ class MusoGarageHandler implements Handler {
 										"Palmwoods Hotel":["lat":-26.6887, "lng":152.9596, "address":"28-34 Main St, Palmwoods, Sunshine Coast"]]
 	
 	static {
+		//XXX:  VERY BAD that we're doing this, however something is wrong with certs on muso's side; this is the fastest worksaround for now
 		HandlerRegistry.registerHandler("Event/Music/Live", theInstance)				//Live music shows
+		
+		def nullTrustManager = [
+			checkClientTrusted: { chain, authType ->  },
+			checkServerTrusted: { chain, authType ->  },
+			getAcceptedIssuers: { null }
+		]
+		
+		def nullHostnameVerifier = [
+			verify: { hostname, session -> true }
+		]
+		
+		SSLContext sc = SSLContext.getInstance("SSL")
+		sc.init(null, [nullTrustManager as X509TrustManager] as TrustManager[], null)
+		HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory())
+		HttpsURLConnection.setDefaultHostnameVerifier(nullHostnameVerifier as HostnameVerifier)
 	}
 	
 	public JSONArray handleRequest(String context, String params) {
@@ -205,21 +221,6 @@ class MusoGarageHandler implements Handler {
 	}
 	
 	static def main(args) {
-		def nullTrustManager = [
-			checkClientTrusted: { chain, authType ->  },
-			checkServerTrusted: { chain, authType ->  },
-			getAcceptedIssuers: { null }
-		]
-		
-		def nullHostnameVerifier = [
-			verify: { hostname, session -> true }
-		]
-		
-		SSLContext sc = SSLContext.getInstance("SSL")
-		sc.init(null, [nullTrustManager as X509TrustManager] as TrustManager[], null)
-		HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory())
-		HttpsURLConnection.setDefaultHostnameVerifier(nullHostnameVerifier as HostnameVerifier)
-		
 		def entries = theInstance.handleRequest("Event/Music/Live", null)
 		println entries.toJSONString()
 	}
