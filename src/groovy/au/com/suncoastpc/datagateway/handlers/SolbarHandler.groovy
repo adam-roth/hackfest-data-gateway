@@ -39,7 +39,8 @@ class SolbarHandler implements Handler {
 			//allGigs.findAll(/(?ms)\<article.*?\>(.*?)\<\/article\>/) { fullMatch, article ->
 			allGigs.findAll(/(?ms)\<div.*?class\=\"sow-image-grid-image\"\>(.*?)\<\/div\>/) { fullMatch, article ->
 				//find the link
-				def link = article.split(/href\=\"/)[1].split(/\"/)[0];
+				def articleParts = article.split(/href\=\"/)
+				def link = articleParts.length > 1 ? article.split(/href\=\"/)[1].split(/\"/)[0] : nil
 				article = link.toURL().text.replaceAll(/\<\/?del\>/, "")
 				
 				println link
@@ -49,19 +50,24 @@ class SolbarHandler implements Handler {
 				//grab the artist
 				def artist = "open mic"
 				
-				try {
-					def initialParts = article.split(/(?msi)\<h1.*?\>/)
-					artist = (initialParts.length == 1 ? initialParts[0] : initialParts[1]).split(/\>/)[0].split(separatorRegex)[0].trim()
-					artist = artist.split(" ").collect { it.toLowerCase().capitalize() }.join(" ")
-					artist = StringEscapeUtils.unescapeHtml(artist)
+				if (link) {
+					try {
+						def initialParts = article.split(/(?msi)\<h1.*?\>/)
+						artist = (initialParts.length < 2 ? initialParts[0] : initialParts[1]).split(/\>/)[0].split(separatorRegex)[0].trim()
+						artist = artist.split(" ").collect { it.toLowerCase().capitalize() }.join(" ")
+						artist = StringEscapeUtils.unescapeHtml(artist)
+					}
+					catch (ex) {
+						//failed to parse properly; just log and move on to the next one
+						//ex.printStackTrace()
+						println "Failed to parse artist; url=${ link }, error=${ ex }"
+					}
 				}
-				catch (ex) {
-					//failed to parse properly; just log and move on to the next one
-					//ex.printStackTrace()
-					println "Failed to parse artist; url=${ link }, error=${ ex }"
+				else {
+					println "No link found in article; article=${ article }"
 				}
 				
-				if (! artist.toLowerCase().contains("open mic") /*&& ! artist.startsWith("<article")*/ && ! artist.toLowerCase().startsWith("coming up")) {
+				if (link && ! artist.toLowerCase().contains("open mic") /*&& ! artist.startsWith("<article")*/ && ! artist.toLowerCase().startsWith("coming up")) {
 					//found a valid entry; now we need to gather additional details:
 					//	detailsLink
 					//  ticket cost?
