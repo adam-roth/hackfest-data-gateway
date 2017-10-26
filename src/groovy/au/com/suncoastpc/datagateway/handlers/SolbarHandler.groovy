@@ -40,8 +40,8 @@ class SolbarHandler implements Handler {
 			allGigs.findAll(/(?ms)\<div.*?class\=\"sow-image-grid-image\"\>(.*?)\<\/div\>/) { fullMatch, article ->
 				//find the link
 				def articleParts = article.split(/href\=\"/)
-				def link = articleParts.length > 1 ? article.split(/href\=\"/)[1].split(/\"/)[0] : nil
-				article = link.toURL().text.replaceAll(/\<\/?del\>/, "")
+				def link = articleParts.length > 1 ? article.split(/href\=\"/)[1].split(/\"/)[0] : null
+				article = link?.toURL()?.text?.replaceAll(/\<\/?del\>/, "")
 				
 				println link
 				
