@@ -37,6 +37,9 @@ class MusoGarageHandler implements Handler {
 										"Tewantin Noosa RSL":["lat":-26.3928, "lng":153.0397, "address":"1 Memorial Ave, Tewantin, Sunshine Coast"],
 										"Coolum Beach Hotel":["lat":-26.5269, "lng":153.0900, "address":"David Low Way, Coolum Beach, Sunshine Coast"],
 										"The Surf Club":["lat":-26.6815, "lng":153.1215, "address":"The Esplanade, Mooloolaba, Sunshine Coast"],
+										"Lot 104":["lat":-26.6785, "lng":153.1179, "address":"105 Mooloolaba Esplanade, Mooloolaba, Sunshine Coast"],
+										"Bavarian Beach Bar & Cafe":["lat":-26.6796, "lng":153.1193, "address":"116/59 Mooloolaba Esplanade, Mooloolaba, Sunshine Coast"],
+										"The Imperial Hotel Eumundi":["lat":-26.4758, "lng":152.9506, "address":"1 Etheridge St, Eumundi, Sunshine Coast"],
 										"Palmwoods Hotel":["lat":-26.6887, "lng":152.9596, "address":"28-34 Main St, Palmwoods, Sunshine Coast"]]
 	
 	static {

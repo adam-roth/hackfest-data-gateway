@@ -47,9 +47,19 @@ class SolbarHandler implements Handler {
 				//sleep 2500
 				
 				//grab the artist
-				def artist = article.split(/(?msi)\<h1.*?\>/)[1].split(/\>/)[0].split(separatorRegex)[0].trim()
-				artist = artist.split(" ").collect { it.toLowerCase().capitalize() }.join(" ")
-				artist = StringEscapeUtils.unescapeHtml(artist)
+				def artist = "open mic"
+				
+				try {
+					def initialParts = article.split(/(?msi)\<h1.*?\>/)
+					artist = (initialParts.length == 1 ? initialParts[0] : initialParts[1]).split(/\>/)[0].split(separatorRegex)[0].trim()
+					artist = artist.split(" ").collect { it.toLowerCase().capitalize() }.join(" ")
+					artist = StringEscapeUtils.unescapeHtml(artist)
+				}
+				catch (ex) {
+					//failed to parse properly; just log and move on to the next one
+					//ex.printStackTrace()
+					println "Failed to parse artist; url=${ link }, error=${ ex }"
+				}
 				
 				if (! artist.toLowerCase().contains("open mic") /*&& ! artist.startsWith("<article")*/ && ! artist.toLowerCase().startsWith("coming up")) {
 					//found a valid entry; now we need to gather additional details:
@@ -82,7 +92,12 @@ class SolbarHandler implements Handler {
 						def dayAndMonth = article.split(/(?msi)\<h1.*?\>/)[1].split(/\>/)[0].split(separatorRegex)[1].split(/\</)[0].trim().replace("st", "").replace("nd", "").replace("rd", "").replace("th", "")
 						dayAndMonth = dayAndMonth.split(/ /)[1] + " " + dayAndMonth.split(/ /)[2]
 						
-						def dayAndMonthAndYear = (dayAndMonth + " " + currentYear).replace("Augu ", "August ")
+						//cleanup invalid data
+						def dayAndMonthAndYear = (dayAndMonth + " " + currentYear).replace("Augu ", "August ").replace("Nvember", "November")
+						if (dayAndMonthAndYear.endsWith(" 6")) {
+							dayAndMonthAndYear = dayAndMonthAndYear.substring(0, dayAndMonthAndYear.length() - 2)
+						}
+						
 						entry.startDate = Date.parse("dd MMM yyyy", dayAndMonthAndYear).getTime();
 						if (entry.startDate < new Date().getTime() - 1000 * 60 * 60 * 24) {
 							dayAndMonthAndYear = dayAndMonth + " " + (currentYear + 1)
