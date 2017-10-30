@@ -100,8 +100,8 @@ class SolbarHandler implements Handler {
 						
 						//cleanup invalid data
 						def dayAndMonthAndYear = (dayAndMonth + " " + currentYear).replace("Augu ", "August ").replace("Nvember", "November")
-						if (dayAndMonthAndYear.endsWith(" 6")) {
-							dayAndMonthAndYear = dayAndMonthAndYear.substring(0, dayAndMonthAndYear.length() - 2)
+						if (dayAndMonthAndYear.trim().endsWith(" 6")) {
+							dayAndMonthAndYear = dayAndMonthAndYear.trim().substring(0, dayAndMonthAndYear.length() - 2)
 						}
 						
 						entry.startDate = Date.parse("dd MMM yyyy", dayAndMonthAndYear).getTime();
@@ -167,6 +167,7 @@ class SolbarHandler implements Handler {
 						
 						//event description
 						article.find(/(?msi)\<div.*?class\=.*?so\-panel.*?data\-index\=.*?1.*?\>.*?<div.*?class\=.*?textwidget.*?\>(.*?)\<\/div\>/) { match, content ->
+							//FIXME:  unicode chars turn into garbled nonsense in description text; should probably filter those out too
 							entry.description = StringEscapeUtils.unescapeHtml(content.trim().replaceAll(/\<.*?\>/, ""))
 						}
 						
