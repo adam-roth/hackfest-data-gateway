@@ -117,7 +117,7 @@
 			<br />
 			<br />
 			<p>Alternately, simply scan the QR code below from your Android device.</p>
-			<img src="http://terra.suncoastpc.com.au:8181/data-gateway/images/coastlive_qr.jpg" />
+			<img src="http://terra.suncoastpc.com.au:8181/data-gateway/images/coastlive_qr.jpg" style="max-width: 500px;" />
 			<h1>Source Code</h1>
 			<p>Application source-code for the Coast Live! app can be found <a href="https://github.com/adam-roth/coastlive-app" target="_blank">on Github</a>, at:</p>
 			<a href="https://github.com/adam-roth/coastlive-app" target="_blank">https://github.com/adam-roth/coastlive-app</a>			
