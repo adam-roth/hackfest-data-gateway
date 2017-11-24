@@ -9,7 +9,7 @@ class SyncController {
 
     def index() { 
 		//list/expose all events
-		def allEvents = SyncEvent.findAll("from SyncEvent as e where and e.eventTime > ?", [ new Date() ])
+		def allEvents = SyncEvent.findAll("from SyncEvent as e where e.eventTime > ?", [ new Date() ])
 		
 		request.events = allEvents
 	}
