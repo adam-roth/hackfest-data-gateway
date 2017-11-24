@@ -153,7 +153,7 @@
 		</div>
 		<div id="page-body" role="main">
 			<h1>Events</h1>
-			<p>Below are all the events that have been created, and some basic details for each one.  
+			<p>Below are all the upcoming events that have been created, and some basic details for each one.  
 			</p>
 			<g:if test="${ ! events || events.size() < 1 }">
 				<p>
