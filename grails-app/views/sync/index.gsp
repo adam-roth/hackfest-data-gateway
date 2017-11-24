@@ -165,17 +165,23 @@
 					<!-- FIXME:  list events here -->
 					<thead>
 						<tr>
-							<th>API Key</th>
-							<th class="centeredCol">Secret Key</th>
-							<th class="centeredCol">Requests Made</th>
+							<th>Date</th>
+							<th>Event Name</th>
+							<th>Latitude</th>
+							<th>Longitude</th>
+							<th class="centeredCol">Geometry</th>
+							<th>Script</th>
 						</tr>
 					</thead>
 					<tbody>
-						<g:each var="key" in="${ keys }">
+						<g:each var="event" in="${ events }">
 							<tr>
-								<td>${ key.apiKey }</td>
-								<td style="cursor: pointer;" onclick="this.innerHTML = '${ key.secretKey }'">(click to view)</td>
-								<td>${ stats[key.apiKey].count }</td>
+								<td><g:formatDate format="dd-MM-yyyy hh:mm a" date="${ event.eventTime }"/></td>
+								<td>${ event.name }</td>
+								<td>${ event.latitude }</td>
+								<td>${ event.longitude }</td>
+								<td><img src="${ event.thumbnail }" style="max-width: 330px;" /></td>
+								<td><g:link controller="sync" action="getScript" params='[id: "${ event.id }"]'>View script</g:link></td>
 							</tr>
 						</g:each>
 					</tbody>
@@ -418,6 +424,7 @@
 
 			    //all valid, transition to the script editor
 			    window.scripts = [];
+			    $("#editZone").find("option").remove();
 			    for (var zone = 0; zone < zones; zone++) {
 			    	scripts.push({id: zone, events:[]});
 			        $("#editZone").append("<option value='" + zone + "'>Zone " + (zone + 1) + "</option>");
@@ -477,6 +484,9 @@
 			};
 	
 			window.publishEvent = function(button) {
+				//ensure all changes have been saved
+				saveScript();
+			
 				//collect all data and post to server
 				var params = {};
 				
@@ -505,14 +515,40 @@
 			    params.minute = $("#minute").val();
 			    params.timezone = $("#timezone").val();
 			    
+			    params.eventDate = params.date + " " + params.hour + ":" + params.minute + " " + params.timezone;
+			    
 			    //collect the script
 			    params.scripts = JSON.stringify(scripts);
 			    
 			    //snapshot of the configuration
 			    params.image = $("#eventCanvas")[0].toDataURL("image/png");
 			    
-			    //FIXME:  post to server, refresh page if/when successful
+			    params.pin = prompt("Please enter your admin token");
+			    
+			    //post to server, refresh page if/when successful
 			    console.log(params);
+			    try {
+				    $.post("sync/create", params, function( data ) {
+				    	if (data && ! data.status) {
+				    		data = safeJsonParse(data);
+				    	}
+				    	
+						if (data && data.status == "success") {
+							window.location.reload();
+						}
+						else {
+							if (data && data.message) {
+								alert("We're sorry, but your event could not be published:  " + data.message);
+							}
+							else {
+								alert("We're sorry, but your event could not be published.");
+							}
+						}
+					});
+				}
+				catch (ex) {
+					alert("We're sorry, but your event could not be published:  error=" + ex);
+				}
 				
 			};
 			
@@ -613,7 +649,17 @@
 			window.pad = function(item) {
 				item += "";
 			    return item.length != 1 ? item : "0" + item;
-			}
+			};
+			
+			window.safeJsonParse = function(text) {
+				try {
+					return eval( "(" + text + ")" );
+				}
+				catch (ex) {
+					console.log("Could not parse response:  " + text);
+					return {"status":"error", "message": "Unreadable response received from server!"};
+				}
+			};
 	
 			$(document).ready(function() {
 				for (var hour = 0; hour < 24; hour++) {
@@ -633,6 +679,8 @@
 			    });
 			    
 			    $("#editZone").on("change keyup", function() {
+			    	saveScript();
+			    
 				    $(".zoneNumber").html(parseInt($(this).val(), 10) + 1);
 			        drawZoneScript(this);
 			    });
