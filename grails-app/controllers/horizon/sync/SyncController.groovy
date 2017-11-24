@@ -6,6 +6,10 @@ import org.json.simple.JSONValue
 
 class SyncController {
 	static final def ADMIN_PIN = "12345a"
+	
+	def ping() {
+		//no-op
+	}
 
     def index() { 
 		//list/expose all events
@@ -145,14 +149,13 @@ class SyncController {
 	}
 	
 	def getUpdates() {
-		//FIXME:  uncomment
 		//need to compute and report clock skew, which should happen first
-		//long serverTime = System.currentTimeMillis()
-		//long clientTime = params.long("clientTime") + params.long("clientLatency")
-		//long timeOffset = serverTime - clientTime		//amount client must ADD to their clock readings
+		long serverTime = System.currentTimeMillis()
+		long clientTime = params.long("clientTime") + params.long("clientLatency")
+		long timeOffset = serverTime - clientTime		//amount client must ADD to their clock readings
 		
 		def output = new JSONObject()
-		//output.put("timeOffset", timeOffset)		//FIXME:  uncomment
+		output.put("timeOffset", timeOffset)
 		
 		def result = new JSONArray()
 		def timestamp = new Date(params.int("timestamp"))
