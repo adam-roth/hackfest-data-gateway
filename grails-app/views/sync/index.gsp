@@ -466,6 +466,7 @@
 			        event.color = $(this).find(".color").val();
 			        event.image = $(this).find(".imageUrl").val();
 			        event.message = $(this).find(".messageText").val();
+			        event.effect = $(this).find(".effect").val();
 			        
 			        events.push(event);
 			    });

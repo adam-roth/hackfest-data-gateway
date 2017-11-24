@@ -76,7 +76,8 @@ class SyncController {
 											new File(fName).withOutputStream { out ->
 												out << new URL(address).openStream()
 											}
-											event.put("image", g.createLink(controller:"sync", action:"getFile", params:[file: fName]))
+											//FIXME:  uncomment to proxy the images internally (good for not DoS'ing people!)
+											//event.put("image", g.createLink(controller:"sync", action:"getFile", params:[file: fName]))
 										}
 										catch (ex) {
 											request.status = "error"
@@ -158,11 +159,12 @@ class SyncController {
 		output.put("timeOffset", timeOffset)
 		
 		def result = new JSONArray()
-		def timestamp = new Date(params.int("timestamp"))
+		def timestamp = new Date(params.long("timestamp"))
 		SyncEvent.findAll("from SyncEvent as e where e.createTime > ? and e.eventTime > ?", [ timestamp, new Date() ] ).each { event ->
 			JSONObject json = new JSONObject()
 			json.put("name", event.name)
 			json.put("start", event.eventTime.getTime())
+			json.put("created", event.createTime.getTime())
 			json.put("latitude", event.latitude)
 			json.put("longitude", event.longitude)
 			json.put("numZones", event.numZones)
@@ -179,5 +181,10 @@ class SyncController {
 		
 		request.status = "success"
 		request.result = output.toJSONString()
+	}
+	
+	def getFile() {
+		//FIXME:  implement
+		def file = params.file  //XXX:  dangerous!!!
 	}
 }
