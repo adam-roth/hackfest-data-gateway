@@ -104,19 +104,36 @@
 		</div>
 		<div id="page-body" role="main">
 			<h1>Coast Live!</h1>
-			<p>Coast Live! is a native Android application that allows users to find live music events going on around the Sunshine Coast.   
+			<p>Coast Live! is a native Android application that allows users to find live music events going on around the Sunshine Coast, and 
+			<a href="https://www.sunshinecoast.qld.gov.au/Council/News-Centre/Live-music-app-wins-Hackfest-2016-021216" target="_blank">winner of Hackfest 2016</a>.   
 			</p>
 			<p>
-				<img src="http://terra.suncoastpc.com.au:8181/data-gateway/images/coastlive_screenshot.png" />
+				<img src="http://terra.suncoastpc.com.au:8181/data-gateway/images/coastlive_screenshot.png" style="width:480px;" />
 			</p>
 			<h1>Installation</h1>
-			<p>You can download and install the Coast Live! application directly from the following URL:</p>
-			<a href="http://terra.suncoastpc.com.au:8181/data-gateway/release/coastlive-0.1.apk" target="_blank">http://terra.suncoastpc.com.au:8181/data-gateway/release/coastlive-0.1.apk</a>
+			<p>Coast Live! is available in the Play Store at the following URL:</p>
+			<a href="https://play.google.com/store/apps/details?id=au.com.suncoastpc.coastlive&hl=en" target="_blank">https://play.google.com/store/apps/details?id=au.com.suncoastpc.coastlive&hl=en</a>
 			<br />
 			<br />
 			<br />
 			<p>Alternately, simply scan the QR code below from your Android device.</p>
-			<img src="http://terra.suncoastpc.com.au:8181/data-gateway/images/coastlive_qr.jpg" />
+			<img src="http://terra.suncoastpc.com.au:8181/data-gateway/images/coastlive_qr.jpg" style="max-width: 500px;" />
+			<h1>Source Code</h1>
+			<p>Application source-code for the Coast Live! app can be found <a href="https://github.com/adam-roth/coastlive-app" target="_blank">on Github</a>, at:</p>
+			<a href="https://github.com/adam-roth/coastlive-app" target="_blank">https://github.com/adam-roth/coastlive-app</a>			
+			<br />
+			<br />
+			<h1>More Info/Submission Video</h1>
+			<p>
+				<iframe width="640" height="480" src="https://www.youtube.com/embed/rcjjCBC0xLc" frameborder="0" allowfullscreen></iframe>
+			</p>
+			<p>
+				<ul style="position: relative; left: 20px;">
+					<li><a href="http://terra.suncoastpc.com.au:8181/data-gateway/release/coastlive_slides.pptx" target="_blank">Download video slides and script</a></li>
+					<li><a href="http://terra.suncoastpc.com.au:8181/data-gateway/release/coastlive_submission.txt" target="_blank">Project submission - original</a></li>
+					<li><a href="http://terra.suncoastpc.com.au:8181/data-gateway/release/coastlive_supplement.txt" target="_blank">Project submission - supplemental info</a></li>
+				</ul>
+			</p>
 		</div>
 	</body>
 </html>

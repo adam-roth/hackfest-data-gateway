@@ -1,12 +1,18 @@
 package au.com.suncoastpc.datagateway.handlers
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import javax.net.ssl.HostnameVerifier
+import javax.net.ssl.HttpsURLConnection
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 
-import au.com.suncoastpc.auth.util.CookieManager;
-import au.com.suncoastpc.datagateway.Handler;
-import au.com.suncoastpc.datagateway.HandlerRegistry;
+import org.apache.commons.lang.StringEscapeUtils
+import org.json.simple.JSONArray
+import org.json.simple.JSONObject
+
+import au.com.suncoastpc.auth.util.CookieManager
+import au.com.suncoastpc.datagateway.Handler
+import au.com.suncoastpc.datagateway.HandlerRegistry
 
 //FIXME:  should explicitly set AEST as timezone on all Date.parse() calls
 class MusoGarageHandler implements Handler {
@@ -22,10 +28,38 @@ class MusoGarageHandler implements Handler {
 	static final def supportedVenues = ["The Yacht Club":["lat":-26.6854, "lng":153.1301, "address": "33-45 Parkyn Parade, Mooloolaba, Sunshine Coast"], 
 										"Solbar":["lat":-26.6522, "lng":153.0903, "address": "19 Ocean Street, Maroochydore, Sunshine Coast"],
 										"The Imperial Hotel":["lat":-26.4758, "lng":152.9506, "address": "1 Etheridge St, Eumundi, Sunshine Coast"],
-										"Noosa Reef Hotel":["lat":-26.3926, "lng":153.0900, "address": "19 Noosa Dr, Noosa Heads"]]
+										"Noosa Reef Hotel":["lat":-26.3926, "lng":153.0900, "address": "19 Noosa Dr, Noosa Heads"], 
+										"The Peregian Beach Hotel":["lat":-26.4807754, "lng":153.0952556, "address": "221-229 David Low Way, Peregian Beach, Sunshine Coast"], 
+										"Cooroy RSL":["lat":-26.4176, "lng":152.9107, "address":"25 Maple St, Cooroy, Sunshine Coast"],
+										"Harbour Wine Bar":["lat":-26.3943, "lng":153.0415, "address":"2 Parkyn Ct, Tewantin, Sunshine Coast"],
+										"Coolum Beach Bowls Club":["lat":-26.5295, "lng":153.0900, "address":"7-13 Elizabeth St, Coolum Beach, Sunshine Coast"],
+										"Artisan Marketplace Maleny": ["lat":-26.7582, "lng":152.8514, "address":"38 Maple St, Maleny, Sunchine Coast"],
+										"Tewantin Noosa RSL":["lat":-26.3928, "lng":153.0397, "address":"1 Memorial Ave, Tewantin, Sunshine Coast"],
+										"Coolum Beach Hotel":["lat":-26.5269, "lng":153.0900, "address":"David Low Way, Coolum Beach, Sunshine Coast"],
+										"The Surf Club":["lat":-26.6815, "lng":153.1215, "address":"The Esplanade, Mooloolaba, Sunshine Coast"],
+										"Lot 104":["lat":-26.6785, "lng":153.1179, "address":"105 Mooloolaba Esplanade, Mooloolaba, Sunshine Coast"],
+										"Bavarian Beach Bar & Cafe":["lat":-26.6796, "lng":153.1193, "address":"116/59 Mooloolaba Esplanade, Mooloolaba, Sunshine Coast"],
+										"The Imperial Hotel Eumundi":["lat":-26.4758, "lng":152.9506, "address":"1 Etheridge St, Eumundi, Sunshine Coast"],
+										"Palmwoods Hotel":["lat":-26.6887, "lng":152.9596, "address":"28-34 Main St, Palmwoods, Sunshine Coast"]]
 	
 	static {
+		//XXX:  VERY BAD that we're doing this, however something is wrong with certs on muso's side; this is the fastest worksaround for now
 		HandlerRegistry.registerHandler("Event/Music/Live", theInstance)				//Live music shows
+		
+		def nullTrustManager = [
+			checkClientTrusted: { chain, authType ->  },
+			checkServerTrusted: { chain, authType ->  },
+			getAcceptedIssuers: { null }
+		]
+		
+		def nullHostnameVerifier = [
+			verify: { hostname, session -> true }
+		]
+		
+		SSLContext sc = SSLContext.getInstance("SSL")
+		sc.init(null, [nullTrustManager as X509TrustManager] as TrustManager[], null)
+		HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory())
+		HttpsURLConnection.setDefaultHostnameVerifier(nullHostnameVerifier as HostnameVerifier)
 	}
 	
 	public JSONArray handleRequest(String context, String params) {

@@ -48,8 +48,13 @@ class ApiController {
 				def candidates = []
 				def unfilteredItems = []
 				handlers.each { handler ->
-					handler.handleRequest(context, queryParams).each { item ->
-						unfilteredItems.add(item)
+					try {
+						handler.handleRequest(context, queryParams).each { item ->
+							unfilteredItems.add(item)
+						}
+					}
+					catch (ex) {
+						println "Handler threw exception when processing request; handler=${ handler.getClass().getName() }, context=${ context }, params=${ queryParams }, error=${ ex }"
 					}
 				}
 				

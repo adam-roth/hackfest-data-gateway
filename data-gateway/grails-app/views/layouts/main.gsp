@@ -14,7 +14,15 @@
 		<link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}">
 		<link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
 		<link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">
+		<link rel="stylesheet" href="${resource(dir: 'css', file: 'jquery-ui.css')}" type="text/css">
+		<link rel="stylesheet" href="${resource(dir: 'css', file: 'colorpicker.css')}" type="text/css" />
+		
 		<script src="${createLink(uri: '/js/jquery-1.11.3.js')}"></script>
+		<script src="${createLink(uri: '/js/jquery-ui.js')}"></script>
+		<script src="${createLink(uri: '/js/colorpicker.js')}"></script>
+		<script src="${createLink(uri: '/js/eye.js')}"></script>
+		<script src="${createLink(uri: '/js/utils.js')}"></script>
+		
 		<g:layoutHead/>
 		<r:layoutResources />
 	</head>

@@ -1,0 +1,104 @@
+Description (corrected for typos)
+	Live events (concerts/gigs) app, also allows users to overlay other SCC
+	datasets that might be useful to a concert-goer, such as restaurants, 
+	shops, bus stops, etc..
+
+	
+Source Code
+	Coast Live! App:	https://github.com/adam-roth/coastlive-app	
+	Data Gateway:		https://github.com/adam-roth/hackfest-data-gateway
+	
+
+Category:  Business
+	The Coast Live! app has significant business potential.  For instance, users 
+	could be allowed to purchase songs and other band/artist merchandise directly 
+	within the app, on the event details screen.  Or event tickets could be sold 
+	in the same way, with a potential to earn a commission from the actual ticket 
+	vendor on each sale.  
+	
+	Further possibilities include selling premium content subscriptions to venues 
+	to allow them have more control over how their venue details are presented within
+	the app and/or to enable bits of UI flair to make their venue stand out from 
+	others.  This would in principle be similar to how Google allows businesses to 
+	have their content promoted above other search results.  
+	
+	There's also potential for enabling more advanced features, such as geofenced 
+	promotions that are automatically triggered whenever an app user is near a 
+	venue.  Or the ability for venues to push notifications to nearby application 
+	users or to users who have marked their venue as a 'favorite' or attended their 
+	events in the past.  
+	
+	Because the app keeps track of what artists, genres, and venues 
+	a user is interested in, it could also provide venues the opportunity to 
+	target different segments of users with tailored promos.  For instance, the 
+	way you engage with someone whose only interest is Hardcore music may be different 
+	from how you might try to woo someone who's interested in Country and Funk 
+	instead.  The Coast Live! app makes that possible.
+	
+	Even in its current form, the app promises to benefit local businesses by 
+	increasing awareness (and therefore attendance) of local music events and 
+	by reducing the amount of time and effort that venues must invest in 
+	curating and promoting their events.  This reduces overhead for local 
+	businesses, and increased attendence can translate directly into increased 
+	ticket sales, which boosts revenue for both the venue and the artist(s).
+	
+	As a real, fully-working Android-native app, Coast Live! is ready for growth 
+	today!
+	
+	
+Category:  Community
+	A thriving local music scene is an asset for any community, and the Coast Live! 
+	app helps to keep the local music scene healthy and happy.  For instance, there 
+	have been many occasions on which I realized that a band that I would have loved 
+	to see has played a show (or several) on the Coast...some days or weeks after 
+	the event has already occurred.  The relative lack of advertising/promotion of
+	live events coupled with the absence of any single canonical source of event 
+	information on the Coast means that unless you're constantly scouring several 
+	different websites and Facebook feeds for event info it's likely that you're 
+	missing out on some great events.
+	
+	The Coast Live! app solves that problem, by collecting events from those several 
+	different sources and providing them all in a single, easy-to-access package.  Further, 
+	it also lets me nominate my favorite artists, genres, and venues, with the potential 
+	to automatically notify of new events involving any of my favorite bands, genres, 
+	and/or places, even if I'm not actively using the app at all.  This means that I never 
+	have to worry about missing out on an awesome show again!
+	
+	And if fewer people are missing out on shows because they just plain don't know 
+	about what's on, that means more people will be turning up at shows.  More people 
+	turning up translates into more revenue from ticket sales, and also from ancillary 
+	sources such as food/drink sales, and artist/band merchandise and album sales.  Which 
+	keeps the venues happy, the starving artists fed, and generally helps ensure that the 
+	local music scene continues to thrive.  Which is a huge positive for the community.  
+	
+	The Coast Live! app can also leverage social media to create even greater awareness 
+	and community engagement around the Coast's live music scene.  If regular concert-goers 
+	are sharing events on Facebook and announcing which concerts they plan on attending to 
+	the world, other people who might attend events more casually may take notice and decide 
+	to go and see what's up.  This helps the music scene grow, and allows the Coast Live! 
+	app to reach even people who aren't actually using it!
+
+
+Specific SCC ArcGIS datasets used (by endpoint)
+	Structure/Structure_SCRC/MapServer/0
+	Transportation/Transportation_SCRC/MapServer/0
+	Transportation/Transportation_SCRC/MapServer/1
+	Society/Society_SCRC/MapServer/12
+	Society/Society_SCRC/MapServer/23
+	Society/Society_SCRC/MapServer/25
+	Society/Society_SCRC/MapServer/26
+	Society/Society_SCRC/MapServer/27
+	Society/Society_SCRC/MapServer/32
+	Society/Society_SCRC/MapServer/33
+	Society/Society_SCRC/MapServer/34
+	Society/Society_SCRC/MapServer/35
+	Society/Society_SCRC/MapServer/1
+	Society/Society_SCRC/MapServer/5
+	Society/Society_SCRC/MapServer/7
+	Society/Society_SCRC/MapServer/42
+	Society/Society_SCRC/MapServer/51
+	UtilitiesCommunication/Utilities_SCRC/MapServer/0
+
+
+Video Slides and Script
+	http://terra.suncoastpc.com.au:8181/data-gateway/release/coastlive_slides.pptx
