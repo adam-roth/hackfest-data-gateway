@@ -10,6 +10,10 @@ class SyncController {
 	def ping() {
 		//no-op
 	}
+	
+	def about() {
+		//static content
+	}
 
     def index() { 
 		//list/expose all events
