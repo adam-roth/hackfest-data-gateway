@@ -176,7 +176,7 @@
 					<tbody>
 						<g:each var="event" in="${ events }">
 							<tr>
-								<td><g:formatDate format="dd-MM-yyyy hh:mm a" date="${ event.eventTime }"/></td>
+								<td class="timestamp">${ event.eventTime.time }</td>
 								<td>${ event.name }</td>
 								<td>${ event.latitude }</td>
 								<td>${ event.longitude }</td>
@@ -708,6 +708,20 @@
 			    $("#date").datepicker({
 					dateFormat: "d/mm/yy",
 					minDate: 0
+				});
+				
+				//timestamps
+				$(".timestamp").each(function() {
+					var millisUtc = parseInt($(this).html(), 10);
+					var date = new Date(millisUtc);
+					
+					var h = date.getHours();
+			        h = (h < 10) ? ("0" + h) : h ;
+			
+			        var m = date.getMinutes();
+			        m = (m < 10) ? ("0" + m) : m ;
+				
+					$(this).html($.datepicker.formatDate('d-mm-yy', date) + " " + h + ":" + m);
 				});
 			    
 			    //starting canvas state
