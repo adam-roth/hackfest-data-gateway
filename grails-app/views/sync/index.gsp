@@ -454,8 +454,11 @@
 			    });
 			};
 	
-			window.saveScript = function() {
-				var script = scripts[$("#editZone").val()];
+			window.saveScript = function(zoneId) {
+				if (! zoneId) {
+					zoneId = $("#editZone").val();
+				}
+				var script = scripts[zoneId];
 	
 				var events = [];
 			    $(".zoneEditor .scriptRow").each(function() {
@@ -599,6 +602,8 @@
 	
 			window.drawZoneScript = function(select) {
 				//console.log(scripts, select, $(select).val())
+				window._currentZone = $(select).val();
+				
 				var script = scripts[$(select).val()];
 			    var events = script.events;
 			    
@@ -618,6 +623,16 @@
 			        
 			        row.find(".startTime").val(currentTime);
 			    	row.find(".duration").val(duration);
+			    	
+			    	if (event.color) {
+			    		row.find(".color").val(event.color);
+			    	}
+			    	if (event.image) {
+			    		row.find(".imageUrl").val(event.image);
+			    	}
+			    	if (event.message) {
+			    		row.find(".messageText").val(event.message);
+			    	}
 			        
 			        currentTime += duration;
 			        $(".zoneEditor tbody").append(row);
@@ -680,7 +695,7 @@
 			    });
 			    
 			    $("#editZone").on("change keyup", function() {
-			    	saveScript();
+			    	saveScript(window._currentZone);
 			    
 				    $(".zoneNumber").html(parseInt($(this).val(), 10) + 1);
 			        drawZoneScript(this);
