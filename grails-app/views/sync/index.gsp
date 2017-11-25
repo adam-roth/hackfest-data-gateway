@@ -633,6 +633,9 @@
 			    	if (event.message) {
 			    		row.find(".messageText").val(event.message);
 			    	}
+			    	if (event.effect) {
+			    		row.find(".effect").val(event.effect);
+			    	}
 			        
 			        currentTime += duration;
 			        $(".zoneEditor tbody").append(row);
