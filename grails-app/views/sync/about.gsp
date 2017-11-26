@@ -126,11 +126,14 @@
 			<br />
 			<h1>More Info/Submission Video</h1>
 			<p>
-				<iframe width="640" height="480" src="https://www.youtube.com/embed/F3hjrF-RAzg" frameborder="0" allowfullscreen></iframe>
+				<iframe width="640" height="480" src="https://www.youtube.com/embed/xGn821Ep31c" frameborder="0" allowfullscreen></iframe>
 			</p>
 			<p>
 				<ul style="position: relative; left: 20px;">
-					<li><a href="http://terra.suncoastpc.com.au:8181/data-gateway/release/horizon_sync_slides_v2.pptx" target="_blank">Download video slides and script</a></li>
+					<li><a href="http://terra.suncoastpc.com.au:8181/data-gateway/release/horizon_sync_slides_v2.pptx" target="_blank">Download slides and script</a></li>
+					<li><a href="http://terra.suncoastpc.com.au/hackfest2017/horizon_sync_submission_video.mp4" target="_blank">Download video</a></li>
+					<li><a href="http://terra.suncoastpc.com.au/hackfest2017/horizon_sync_submission_doc.txt" target="_blank">Project submission</a></li>
+					
 					<!-- 
 					<li><a href="http://terra.suncoastpc.com.au:8181/data-gateway/release/coastlive_submission.txt" target="_blank">Project submission - original</a></li>
 					<li><a href="http://terra.suncoastpc.com.au:8181/data-gateway/release/coastlive_supplement.txt" target="_blank">Project submission - supplemental info</a></li>
