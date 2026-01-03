@@ -153,7 +153,7 @@
 		    };
 		</script>
 		
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvwJUP-fs5XdY7PMBHCUgcJKGbtrVXkGU&callback=mapsAvailable" async defer></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=mapsAvailable" async defer></script>
 		<!-- PRODUCTION: -->
 			<script src='http://terra.suncoastpc.com.au:8181/data-gateway/api/client?apiKey=a3579c0b937f483c9b52247544d4bb5a'></script>
 		<!-- DEVELOPMENT:
@@ -452,3 +452,4 @@
 		</script>
 	</body>
 </html>
+
