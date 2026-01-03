@@ -170,7 +170,7 @@
 		    };
 		</script>
 		
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvwJUP-fs5XdY7PMBHCUgcJKGbtrVXkGU&callback=mapsAvailable" async defer></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=mapsAvailable" async defer></script>
 		<!-- XXX:  Development key:  http://localhost:8080/data-gateway/api/client?apiKey=... -->
 		<!-- PRODUCTION:  -->
 			<script src='http://terra.suncoastpc.com.au:8181/data-gateway/api/client?apiKey=YOUR_PROD_KEY'></script>
@@ -681,4 +681,5 @@
 		</script>
 	</body>
 </html>
+
 
